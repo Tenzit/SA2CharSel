@@ -23,6 +23,7 @@ using std::transform;
 int defaultcharacters[Characters_Amy] = { Characters_Sonic, Characters_Shadow, Characters_Tails, Characters_Eggman, Characters_Knuckles, Characters_Rouge, Characters_MechTails, Characters_MechEggman };
 int defaultcharacters2p[Characters_Amy] = { Characters_Sonic, Characters_Shadow, Characters_Tails, Characters_Eggman, Characters_Knuckles, Characters_Rouge, Characters_MechTails, Characters_MechEggman };
 int defaultcharacters2palt[Characters_Amy] = { Characters_Sonic | altcharacter, Characters_Shadow | altcharacter, Characters_Tails, Characters_Eggman, Characters_Knuckles | altcharacter, Characters_Rouge | altcharacter, Characters_MechTails | altcharacter, Characters_MechEggman | altcharacter };
+bool disableButtons = true;
 
 void __cdecl LoadCharacters_r()
 {
@@ -61,41 +62,46 @@ void __cdecl LoadCharacters_r()
 		AltCostume[1] = ch & altcostume ? 1 : 0;
 		AltCharacter[1] = ch & altcharacter ? 1 : 0;
 	}
-	int playerNum = 0;
-	int *character = &CurrentCharacter;
-	int buttons = MenuButtons_Held[0];
+
+		int playerNum = 0;
+		int *character = &CurrentCharacter;
+		int buttons = MenuButtons_Held[0];
+	if (!disableButtons) {
 LoopStart:
-	if (buttons & Buttons_Left)
-		*character = Characters_Sonic;
-	if (buttons & Buttons_Right)
-		*character = Characters_Shadow;
-	if (buttons & Buttons_Down)
-		*character = Characters_Knuckles;
-	if (buttons & Buttons_Up)
-		*character = Characters_Rouge;
-	if (buttons & Buttons_R)
-		*character = Characters_MechTails;
-	if (buttons & Buttons_L)
-		*character = Characters_MechEggman;
-	if (buttons & Buttons_Y)
-		*character = Characters_Tails;
-	if (buttons & Buttons_X)
-		*character = Characters_Eggman;
-	if (buttons & Buttons_B)
-		AltCharacter[playerNum] ^= 1;
-	if (buttons & Buttons_A)
-		AltCostume[playerNum] ^= 1;
+		if (buttons & Buttons_Left)
+			*character = Characters_Sonic;
+		if (buttons & Buttons_Right)
+			*character = Characters_Shadow;
+		if (buttons & Buttons_Down)
+			*character = Characters_Knuckles;
+		if (buttons & Buttons_Up)
+			*character = Characters_Rouge;
+		if (buttons & Buttons_R)
+			*character = Characters_MechTails;
+		if (buttons & Buttons_L)
+			*character = Characters_MechEggman;
+		if (buttons & Buttons_Y)
+			*character = Characters_Tails;
+		if (buttons & Buttons_X)
+			*character = Characters_Eggman;
+		if (buttons & Buttons_B)
+			AltCharacter[playerNum] ^= 1;
+		if (buttons & Buttons_A)
+			AltCostume[playerNum] ^= 1;
+	}
 	LoadAnimations(character, playerNum);
-	if (playerNum == 1)
-		goto end;
-	playerNum++;
-	buttons = MenuButtons_Held[1];
-	if (buttons & Buttons_Start)
-		CurrentCharacter2P = CurrentCharacter ^ 1;
-	else if (!TwoPlayerMode)
-		goto end;
-	character = &CurrentCharacter2P;
-	goto LoopStart;
+	if (!disableButtons) {
+		if (playerNum == 1)
+			goto end;
+		playerNum++;
+		buttons = MenuButtons_Held[1];
+		if (buttons & Buttons_Start)
+			CurrentCharacter2P = CurrentCharacter ^ 1;
+		else if (!TwoPlayerMode)
+			goto end;
+		character = &CurrentCharacter2P;
+		goto LoopStart;
+	}
 end:
 	LoadEmeraldManager_r_wrapper();
 }
@@ -110,28 +116,30 @@ void __cdecl LoadBossCharacter()
 	int character = bosscharacters[CurrentCharacter ^ 1];
 	AltCostume[1] = character & altcostume ? 1 : 0;
 	AltCharacter[1] = character & altcharacter ? 1 : 0;
-	character &= charmask;
-	int buttons = MenuButtons_Held[1];
-	if (buttons & Buttons_Left)
-		character = Characters_Sonic;
-	if (buttons & Buttons_Right)
-		character = Characters_Shadow;
-	if (buttons & Buttons_Down)
-		character = Characters_Knuckles;
-	if (buttons & Buttons_Up)
-		character = Characters_Rouge;
-	if (buttons & Buttons_R)
-		character = Characters_MechTails;
-	if (buttons & Buttons_L)
-		character = Characters_MechEggman;
-	if (buttons & Buttons_Y)
-		character = Characters_Tails;
-	if (buttons & Buttons_X)
-		character = Characters_Eggman;
-	if (buttons & Buttons_B)
-		AltCharacter[1] ^= 1;
-	if (buttons & Buttons_A)
-		AltCostume[1] ^= 1;
+	if (!disableButtons) {
+		character &= charmask;
+		int buttons = MenuButtons_Held[1];
+		if (buttons & Buttons_Left)
+			character = Characters_Sonic;
+		if (buttons & Buttons_Right)
+			character = Characters_Shadow;
+		if (buttons & Buttons_Down)
+			character = Characters_Knuckles;
+		if (buttons & Buttons_Up)
+			character = Characters_Rouge;
+		if (buttons & Buttons_R)
+			character = Characters_MechTails;
+		if (buttons & Buttons_L)
+			character = Characters_MechEggman;
+		if (buttons & Buttons_Y)
+			character = Characters_Tails;
+		if (buttons & Buttons_X)
+			character = Characters_Eggman;
+		if (buttons & Buttons_B)
+			AltCharacter[1] ^= 1;
+		if (buttons & Buttons_A)
+			AltCostume[1] ^= 1;
+	}
 	switch (character)
 	{
 	case Characters_Sonic:
@@ -304,6 +312,7 @@ extern "C"
 			defaultcharacters2palt[i] = ParseCharacterID(settings->getString("2Player", charnamesalt[i]), (Characters)(i | altcharacter));
 		for (int i = 0; i < Characters_Amy; i++)
 			bosscharacters[i] = ParseCharacterID(settings->getString("Boss", charnames[i]), (Characters)i);
+		disableButtons = settings->getBool("General", "disableButtons", true);
 		delete settings;
 	}
 
