@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
+	<Groups>
+		<Group name="1Player" display="1 - Single Player">
+			<Property name="Sonic" type="Characters" defaultvalue="Sonic">
+				<HelpText>The default character to load when Sonic is selected.</HelpText>
+			</Property>
+			<Property name="Shadow" type="Characters" defaultvalue="Shadow">
+				<HelpText>The default character to load when Shadow is selected.</HelpText>
+			</Property>
+			<Property name="Tails" type="Characters" defaultvalue="Tails">
+				<HelpText>The default character to load when Tails is selected.</HelpText>
+			</Property>
+			<Property name="Eggman" type="Characters" defaultvalue="Eggman">
+				<HelpText>The default character to load when Eggman is selected.</HelpText>
+			</Property>
+			<Property name="Knuckles" type="Characters" defaultvalue="Knuckles">
+				<HelpText>The default character to load when Knuckles is selected.</HelpText>
+			</Property>
+			<Property name="Rouge" type="Characters" defaultvalue="Rouge">
+				<HelpText>The default character to load when Rouge is selected.</HelpText>
+			</Property>
+			<Property name="MechTails" display="Mech Tails" type="Characters" defaultvalue="MechTails">
+				<HelpText>The default character to load when Mech Tails is selected.</HelpText>
+			</Property>
+			<Property name="MechEggman" display="Mech Eggman" type="Characters" defaultvalue="MechEggman">
+				<HelpText>The default character to load when Mech Eggman is selected.</HelpText>
+			</Property>
+		</Group>
+		<Group name="2Player" display="2 - 2P Battle">
+			<Property name="Sonic" type="Characters" defaultvalue="Sonic">
+				<HelpText>The default character to load when Sonic is selected.</HelpText>
+			</Property>
+			<Property name="Shadow" type="Characters" defaultvalue="Shadow">
+				<HelpText>The default character to load when Shadow is selected.</HelpText>
+			</Property>
+			<Property name="Tails" type="Characters" defaultvalue="Tails">
+				<HelpText>The default character to load when Tails is selected.</HelpText>
+			</Property>
+			<Property name="Eggman" type="Characters" defaultvalue="Eggman">
+				<HelpText>The default character to load when Eggman is selected.</HelpText>
+			</Property>
+			<Property name="Knuckles" type="Characters" defaultvalue="Knuckles">
+				<HelpText>The default character to load when Knuckles is selected.</HelpText>
+			</Property>
+			<Property name="Rouge" type="Characters" defaultvalue="Rouge">
+				<HelpText>The default character to load when Rouge is selected.</HelpText>
+			</Property>
+			<Property name="MechTails" display="Mech Tails" type="Characters" defaultvalue="MechTails">
+				<HelpText>The default character to load when Mech Tails is selected.</HelpText>
+			</Property>
+			<Property name="MechEggman" display="Mech Eggman" type="Characters" defaultvalue="MechEggman">
+				<HelpText>The default character to load when Mech Eggman is selected.</HelpText>
+			</Property>
+			<Property name="Amy" type="Characters" defaultvalue="Amy">
+				<HelpText>The default character to load when Amy is selected.</HelpText>
+			</Property>
+			<Property name="MetalSonic" display="Metal Sonic" type="Characters" defaultvalue="MetalSonic">
+				<HelpText>The default character to load when Metal Sonic is selected.</HelpText>
+			</Property>
+			<Property name="Tikal" type="Characters" defaultvalue="Tikal">
+				<HelpText>The default character to load when Tikal is selected.</HelpText>
+			</Property>
+			<Property name="Chaos" type="Characters" defaultvalue="Chaos">
+				<HelpText>The default character to load when Chaos is selected.</HelpText>
+			</Property>
+			<Property name="ChaoWalker" display="Chao Walker" type="Characters" defaultvalue="ChaoWalker">
+				<HelpText>The default character to load when Chao Walker is selected.</HelpText>
+			</Property>
+			<Property name="DarkChaoWalker" display="Dark Chao Walker" type="Characters" defaultvalue="DarkChaoWalker">
+				<HelpText>The default character to load when Dark Chao Walker is selected.</HelpText>
+			</Property>
+		</Group>
+		<Group name="Boss" display="3 - Bosses">
+			<Property name="Sonic" type="Characters" defaultvalue="Sonic">
+				<HelpText>The default character to load when Sonic is the opponent.</HelpText>
+			</Property>
+			<Property name="Shadow" type="Characters" defaultvalue="Shadow">
+				<HelpText>The default character to load when Shadow is the opponent.</HelpText>
+			</Property>
+			<Property name="Tails" type="Characters" defaultvalue="Tails">
+				<HelpText>The default character to load when Tails is the opponent.</HelpText>
+			</Property>
+			<Property name="Eggman" type="Characters" defaultvalue="Eggman">
+				<HelpText>The default character to load when Eggman is the opponent.</HelpText>
+			</Property>
+			<Property name="Knuckles" type="Characters" defaultvalue="Knuckles">
+				<HelpText>The default character to load when Knuckles is the opponent.</HelpText>
+			</Property>
+			<Property name="Rouge" type="Characters" defaultvalue="Rouge">
+				<HelpText>The default character to load when Rouge is the opponent.</HelpText>
+			</Property>
+			<Property name="MechTails" display="Mech Tails" type="Characters" defaultvalue="MechTails">
+				<HelpText>The default character to load when Mech Tails is the opponent.</HelpText>
+			</Property>
+			<Property name="MechEggman" display="Mech Eggman" type="Characters" defaultvalue="MechEggman">
+				<HelpText>The default character to load when Mech Eggman is the opponent.</HelpText>
+			</Property>
+		</Group>
+	</Groups>
+	<Enums>
+		<Enum name="Characters">
+			<EnumMember name="Sonic" />
+			<EnumMember name="Shadow" />
+			<EnumMember name="Tails" />
+			<EnumMember name="Eggman" />
+			<EnumMember name="Knuckles" />
+			<EnumMember name="Rouge" />
+			<EnumMember name="MechTails" display="Mech Tails" />
+			<EnumMember name="MechEggman" display="Mech Eggman" />
+			<EnumMember name="Amy" />
+			<EnumMember name="MetalSonic" display="Metal Sonic" />
+			<EnumMember name="Tikal" />
+			<EnumMember name="Chaos" />
+			<EnumMember name="ChaoWalker" display="Chao Walker" />
+			<EnumMember name="DarkChaoWalker" display="Dark Chao Walker" />
+			<EnumMember name="SonicAlt" display="Sonic (Alt Costume)" />
+			<EnumMember name="ShadowAlt" display="Shadow (Alt Costume)" />
+			<EnumMember name="KnucklesAlt" display="Knuckles (Alt Costume)" />
+			<EnumMember name="RougeAlt" display="Rouge (Alt Costume)" />
+			<EnumMember name="MechTailsAlt" display="Mech Tails (Alt Costume)" />
+			<EnumMember name="MechEggmanAlt" display="Mech Eggman (Alt Costume)" />
+		</Enum>
+	</Enums>
+</ConfigSchema>
