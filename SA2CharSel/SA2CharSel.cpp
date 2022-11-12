@@ -66,8 +66,8 @@ void __cdecl LoadCharacters_r()
 		int playerNum = 0;
 		int *character = &CurrentCharacter;
 		int buttons = MenuButtons_Held[0];
+	LoopStart:
 	if (!disableButtons) {
-LoopStart:
 		if (buttons & Buttons_Left)
 			*character = Characters_Sonic;
 		if (buttons & Buttons_Right)
@@ -90,18 +90,18 @@ LoopStart:
 			AltCostume[playerNum] ^= 1;
 	}
 	LoadAnimations(character, playerNum);
+	if (playerNum == 1)
+		goto end;
+	playerNum++;
 	if (!disableButtons) {
-		if (playerNum == 1)
-			goto end;
-		playerNum++;
 		buttons = MenuButtons_Held[1];
 		if (buttons & Buttons_Start)
 			CurrentCharacter2P = CurrentCharacter ^ 1;
 		else if (!TwoPlayerMode)
 			goto end;
-		character = &CurrentCharacter2P;
-		goto LoopStart;
 	}
+	character = &CurrentCharacter2P;
+	goto LoopStart;
 end:
 	LoadEmeraldManager_r_wrapper();
 }
