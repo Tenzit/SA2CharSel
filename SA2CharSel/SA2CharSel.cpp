@@ -116,8 +116,8 @@ void __cdecl LoadBossCharacter()
 	int character = bosscharacters[CurrentCharacter ^ 1];
 	AltCostume[1] = character & altcostume ? 1 : 0;
 	AltCharacter[1] = character & altcharacter ? 1 : 0;
+	character &= charmask;
 	if (!disableButtons) {
-		character &= charmask;
 		int buttons = MenuButtons_Held[1];
 		if (buttons & Buttons_Left)
 			character = Characters_Sonic;
