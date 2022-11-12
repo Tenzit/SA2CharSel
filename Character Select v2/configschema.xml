@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
 	<Groups>
+		<Group name="General">
+			<Property name="disableButtons" display="Disable button select" type="bool" defaultvalue="True">
+				<HelpText>Disable buttons selecting characters.</HelpText>
+			</Property>
+		</Group>
 		<Group name="1Player" display="1 - Single Player">
 			<Property name="Sonic" type="Characters" defaultvalue="Sonic">
 				<HelpText>The default character to load when Sonic is selected.</HelpText>
