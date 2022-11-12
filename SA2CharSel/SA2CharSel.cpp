@@ -93,13 +93,11 @@ void __cdecl LoadCharacters_r()
 	if (playerNum == 1)
 		goto end;
 	playerNum++;
-	if (!disableButtons) {
-		buttons = MenuButtons_Held[1];
-		if (buttons & Buttons_Start)
-			CurrentCharacter2P = CurrentCharacter ^ 1;
-		else if (!TwoPlayerMode)
-			goto end;
-	}
+	buttons = MenuButtons_Held[1];
+	if ((buttons & Buttons_Start) && !disableButtons)
+		CurrentCharacter2P = CurrentCharacter ^ 1;
+	else if (!TwoPlayerMode)
+		goto end;
 	character = &CurrentCharacter2P;
 	goto LoopStart;
 end:
