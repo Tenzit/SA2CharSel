@@ -148,7 +148,7 @@
       <EnumMember name="KnucklesAlt" display="Knuckles (Alt Kart)" />
       <EnumMember name="RougeAlt" display="Rouge (Alt Kart)" />
       <EnumMember name="TailsAlt" display="Tails (Alt Kart)" />
-      <EnumMember name="EggmanAlt" display="Eggman (Alt Kart)" />
+      <EnumMember name="MechEggmanAlt" display="Eggman (Alt Kart)" />
     </Enum>
 	</Enums>
 </ConfigSchema>

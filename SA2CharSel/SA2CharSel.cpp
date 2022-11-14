@@ -383,7 +383,7 @@ static const unordered_map<string, uint8_t> charkartmap = {
 	{ "tails", 4 },
 	{ "tailsalt", 4 },
 	{ "eggman", 5 },
-	{ "eggmanalt", 5 },
+	{ "mecheggmanalt", 5 },
 	{ "knuckles", 3 },
 	{ "knucklesalt", 3},
 	{ "rouge", 7 },
