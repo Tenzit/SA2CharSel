@@ -23,6 +23,33 @@ using std::transform;
 int defaultcharacters[Characters_Amy] = { Characters_Sonic, Characters_Shadow, Characters_Tails, Characters_Eggman, Characters_Knuckles, Characters_Rouge, Characters_MechTails, Characters_MechEggman };
 int defaultcharacters2p[Characters_Amy] = { Characters_Sonic, Characters_Shadow, Characters_Tails, Characters_Eggman, Characters_Knuckles, Characters_Rouge, Characters_MechTails, Characters_MechEggman };
 int defaultcharacters2palt[Characters_Amy] = { Characters_Sonic | altcharacter, Characters_Shadow | altcharacter, Characters_Tails, Characters_Eggman, Characters_Knuckles | altcharacter, Characters_Rouge | altcharacter, Characters_MechTails | altcharacter, Characters_MechEggman | altcharacter };
+
+//0 is R101, 1 is R280
+enum KartStages {
+	R101,
+	R280
+};
+
+enum Karts {
+	Kart_TailsR101,
+	Kart_RougeR280,
+	Kart_Sonic,
+	Kart_SonicAlt = Kart_Sonic,
+	Kart_Knuckles,
+	Kart_KnucklesAlt = Kart_Knuckles,
+	Kart_Tails,
+	Kart_TailsAlt = Kart_Tails,
+	Kart_Eggman,
+	Kart_EggmanAlt = Kart_Eggman,
+	Kart_Shadow,
+	Kart_ShadowAlt = Kart_Shadow,
+	Kart_Rouge,
+	Kart_RougeAlt = Kart_Rouge
+};
+
+uint32_t defaultkarts[2] = { 0, 1 };
+uint8_t defaultkartchars[2] = { Characters_Tails, Characters_Rouge };
+
 bool disableButtons = true;
 
 void __cdecl LoadCharacters_r()
@@ -209,6 +236,69 @@ __declspec(naked) void sub_661CF0()
 	__asm jmp loc_661D12
 }
 
+DataPointer(uint8_t, Kart_Level, 0x1D970FC);
+DataPointer(uint8_t, kart_choice_array, 0x174B021);
+const void *const loc_61AECB = (void*)0x61AECB;
+const void *const loc_61AF61 = (void*)0x61AF61;
+
+__declspec(naked) void sub_61AEBD()
+{
+
+	__asm {
+		mov eax, dword ptr Kart_Level
+		movzx eax, byte ptr [eax]
+		cmp eax, R280
+		jg exit_61AECB
+		je label_r280_0
+		mov eax, defaultkarts[4*R101]
+		mov [esp + 0x30], eax
+		jmp loc_61AF61
+	label_r280_0:
+		mov eax, defaultkarts[4*R280]
+		mov [esp + 0x30], eax
+		jmp loc_61AF61
+	exit_61AECB:
+		mov eax, [Kart_Level]
+		sub eax, 1
+		jmp loc_61AECB
+	}
+}
+
+const void *const loc_620303 = (void*)0x620303;
+const void *const loc_6202DD = (void*)0x6202DD;
+const void *const loc_6200F4 = (void*)0x6200F4;
+__declspec(naked) void sub_6200E5()
+{
+	__asm {
+		mov eax, dword ptr Kart_Level
+		movzx eax, byte ptr[eax]
+		cmp eax, R280
+		jg exit_6200F4
+		je label_r280_1
+		cmp dword ptr defaultkarts[4*R101], Kart_RougeR280
+		jl exit_620303
+		je exit_6202DD
+		mov al, byte ptr defaultkartchars[R101]
+		mov ebx, dword ptr kart_choice_array
+		mov byte ptr [ebx], al
+		xor ebx, ebx
+		jmp loc_6200F4
+label_r280_1:
+		cmp dword ptr defaultkarts[4*R280], Kart_RougeR280
+		jl exit_620303
+		je exit_6202DD
+		mov al, byte ptr defaultkartchars[R280]
+		mov ebx, dword ptr kart_choice_array
+		mov byte ptr[ebx], al
+		xor ebx, ebx
+exit_6200F4:
+		jmp loc_6200F4
+exit_620303:
+		jmp loc_620303
+exit_6202DD:
+		jmp loc_6202DD
+	}
+}
 #pragma endregion
 
 #pragma region init splitscreen
@@ -267,7 +357,10 @@ static const unordered_map<string, uint8_t> charnamemap = {
 	{ "knucklesalt", Characters_Knuckles | altcostume },
 	{ "rougealt", Characters_Rouge | altcostume },
 	{ "mechtailsalt", Characters_MechTails | altcostume },
-	{ "mecheggmanalt", Characters_MechEggman | altcostume }
+	{ "mecheggmanalt", Characters_MechEggman | altcostume },
+	{ "tailsr101", Characters_Tails },
+	{ "rouger280", Characters_Rouge },
+	{ "tailsalt", Characters_Tails | altcostume }
 };
 
 static uint8_t ParseCharacterID(const string &str, Characters def)
@@ -280,8 +373,37 @@ static uint8_t ParseCharacterID(const string &str, Characters def)
 	return def;
 }
 
+static const unordered_map<string, uint8_t> charkartmap = {
+	{ "tailsr101", 0 },
+	{ "rouger280", 1 },
+	{ "sonic", 2 },
+	{ "sonicalt", 2 },
+	{ "shadow", 6 },
+	{ "shadowalt", 6 },
+	{ "tails", 4 },
+	{ "tailsalt", 4 },
+	{ "eggman", 5 },
+	{ "eggmanalt", 5 },
+	{ "knuckles", 3 },
+	{ "knucklesalt", 3},
+	{ "rouge", 7 },
+	{ "rougealt", 7},
+
+};
+
+static uint8_t ParseCharacterKart(const string &str, uint8_t def)
+{
+	string s = trim(str);
+	transform(s.begin(), s.end(), s.begin(), ::tolower);
+	auto ch = charkartmap.find(s);
+	if (ch != charkartmap.end())
+		return ch->second;
+	return def;
+}
+
 const string charnames[Characters_Amy] = { "Sonic", "Shadow", "Tails", "Eggman", "Knuckles", "Rouge", "MechTails", "MechEggman" };
 const string charnamesalt[Characters_Amy] = { "Amy", "MetalSonic", "Tails", "Eggman", "Tikal", "Chaos", "ChaoWalker", "DarkChaoWalker" };
+const string kartstagenames[2] = { "R101", "R280" };
 
 #pragma endregion
 
@@ -295,6 +417,8 @@ extern "C"
 		WriteJump((void*)0x648690, sub_648690), // Knuckles vs Rouge
 		WriteJump((void*)0x626680, sub_626680), // Tails vs Eggman 1
 		WriteJump((void*)0x661CF0, sub_661CF0), // Tails vs Eggman 2
+		WriteJump((void*)0x61AEBD, sub_61AEBD), // Kart missions kart
+		WriteJump((void*)0x6200E5, sub_6200E5), // Kart missions texture
 		//WriteJump(InitSplitscreen, InitSplitscreen_r)
 
 		InitBase();
@@ -310,6 +434,10 @@ extern "C"
 			defaultcharacters2palt[i] = ParseCharacterID(settings->getString("2Player", charnamesalt[i]), (Characters)(i | altcharacter));
 		for (int i = 0; i < Characters_Amy; i++)
 			bosscharacters[i] = ParseCharacterID(settings->getString("Boss", charnames[i]), (Characters)i);
+		for (int i = 0; i < 2; i++) {
+			defaultkarts[i] = ParseCharacterKart(settings->getString("Kart", kartstagenames[i]), defaultkarts[i]);
+			defaultkartchars[i] = ParseCharacterID(settings->getString("Kart", kartstagenames[i]), (Characters)defaultkartchars[i]);
+		}
 		disableButtons = settings->getBool("General", "disableButtons", true);
 		delete settings;
 	}
