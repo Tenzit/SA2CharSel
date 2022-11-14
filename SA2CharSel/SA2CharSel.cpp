@@ -47,7 +47,7 @@ enum Karts {
 	Kart_RougeAlt = Kart_Rouge
 };
 
-uint32_t defaultkarts[2] = { 0, 1 };
+uint32_t defaultkarts[2] = { Kart_TailsR101, Kart_RougeR280 };
 uint8_t defaultkartchars[2] = { Characters_Tails, Characters_Rouge };
 
 bool disableButtons = true;
