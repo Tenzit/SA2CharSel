@@ -5,9 +5,9 @@
 			<Property name="disableButtons" display="Disable button select" type="bool" defaultvalue="True">
 				<HelpText>Disable buttons selecting characters.</HelpText>
 			</Property>
-      <Property name="preset" display="Preset" type="Presets" defaultvalue="Manual">
-        <HelpText>Choose to preset characters for alt/alt-swap, or to manually set characters.</HelpText>
-      </Property>
+			<Property name="preset" display="Preset" type="Presets" defaultvalue="Manual">
+				<HelpText>Choose to preset characters for alt/alt-swap, or to manually set characters.</HelpText>
+			</Property>
 		</Group>
 		<Group name="1Player" display="1 - Single Player">
 			<Property name="Sonic" type="Characters" defaultvalue="Sonic">
@@ -105,14 +105,14 @@
 				<HelpText>The default character to load when Mech Eggman is the opponent.</HelpText>
 			</Property>
 		</Group>
-    <Group name="Kart" display="4 - Kart">
-      <Property name="R101" type="KartCharacters" defaultvalue="TailsR101">
-        <HelpText>The default kart to use for Route 101</HelpText>
-      </Property>
-      <Property name="R280" type="KartCharacters" defaultvalue="RougeR280">
-        <HelpText>The default kart to use for Route 280</HelpText>
-      </Property>
-    </Group>
+		<Group name="Kart" display="4 - Kart">
+			<Property name="R101" type="KartCharacters" defaultvalue="TailsR101">
+				<HelpText>The default kart to use for Route 101</HelpText>
+			</Property>
+			<Property name="R280" type="KartCharacters" defaultvalue="RougeR280">
+				<HelpText>The default kart to use for Route 280</HelpText>
+			</Property>
+		</Group>
 	</Groups>
 	<Enums>
 		<Enum name="Characters">
@@ -137,26 +137,26 @@
 			<EnumMember name="MechTailsAlt" display="Mech Tails (Alt Costume)" />
 			<EnumMember name="MechEggmanAlt" display="Mech Eggman (Alt Costume)" />
 		</Enum>
-    <Enum name="KartCharacters">
-      <EnumMember name="TailsR101" display="Tails (Route 101 Kart)" />
-      <EnumMember name="RougeR280" display="Rouge (Route 280 Kart)" />
-      <EnumMember name="Sonic" />
-      <EnumMember name="Shadow" />
-      <EnumMember name="Tails" />
-      <EnumMember name="Eggman" />
-      <EnumMember name="Knuckles" />
-      <EnumMember name="Rouge" />
-      <EnumMember name="SonicAlt" display="Sonic (Alt Kart)" />
-      <EnumMember name="ShadowAlt" display="Shadow (Alt Kart)" />
-      <EnumMember name="KnucklesAlt" display="Knuckles (Alt Kart)" />
-      <EnumMember name="RougeAlt" display="Rouge (Alt Kart)" />
-      <EnumMember name="TailsAlt" display="Tails (Alt Kart)" />
-      <EnumMember name="MechEggmanAlt" display="Eggman (Alt Kart)" />
-    </Enum>
-    <Enum name="Presets">
-      <EnumMember name="Manual"/>
-      <EnumMember name="Alt"/>
-      <EnumMember name="AltSwap" display="Alt-Swap"/>
-    </Enum>
+		<Enum name="KartCharacters">
+			<EnumMember name="TailsR101" display="Tails (Route 101 Kart)" />
+			<EnumMember name="RougeR280" display="Rouge (Route 280 Kart)" />
+			<EnumMember name="Sonic" />
+			<EnumMember name="Shadow" />
+			<EnumMember name="Tails" />
+			<EnumMember name="Eggman" />
+			<EnumMember name="Knuckles" />
+			<EnumMember name="Rouge" />
+			<EnumMember name="SonicAlt" display="Sonic (Alt Kart)" />
+			<EnumMember name="ShadowAlt" display="Shadow (Alt Kart)" />
+			<EnumMember name="KnucklesAlt" display="Knuckles (Alt Kart)" />
+			<EnumMember name="RougeAlt" display="Rouge (Alt Kart)" />
+			<EnumMember name="TailsAlt" display="Tails (Alt Kart)" />
+			<EnumMember name="MechEggmanAlt" display="Eggman (Alt Kart)" />
+		</Enum>
+		<Enum name="Presets">
+			<EnumMember name="Manual"/>
+			<EnumMember name="Alt"/>
+			<EnumMember name="AltSwap" display="Alt-Swap"/>
+		</Enum>
 	</Enums>
 </ConfigSchema>
