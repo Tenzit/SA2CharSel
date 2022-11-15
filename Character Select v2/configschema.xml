@@ -5,6 +5,9 @@
 			<Property name="disableButtons" display="Disable button select" type="bool" defaultvalue="True">
 				<HelpText>Disable buttons selecting characters.</HelpText>
 			</Property>
+      <Property name="preset" display="Preset" type="Presets" defaultvalue="Manual">
+        <HelpText>Choose to preset characters for alt/alt-swap, or to manually set characters.</HelpText>
+      </Property>
 		</Group>
 		<Group name="1Player" display="1 - Single Player">
 			<Property name="Sonic" type="Characters" defaultvalue="Sonic">
@@ -149,6 +152,11 @@
       <EnumMember name="RougeAlt" display="Rouge (Alt Kart)" />
       <EnumMember name="TailsAlt" display="Tails (Alt Kart)" />
       <EnumMember name="MechEggmanAlt" display="Eggman (Alt Kart)" />
+    </Enum>
+    <Enum name="Presets">
+      <EnumMember name="Manual"/>
+      <EnumMember name="Alt"/>
+      <EnumMember name="AltSwap" display="Alt-Swap"/>
     </Enum>
 	</Enums>
 </ConfigSchema>

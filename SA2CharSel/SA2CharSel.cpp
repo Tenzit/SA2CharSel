@@ -24,6 +24,10 @@ int defaultcharacters[Characters_Amy] = { Characters_Sonic, Characters_Shadow, C
 int defaultcharacters2p[Characters_Amy] = { Characters_Sonic, Characters_Shadow, Characters_Tails, Characters_Eggman, Characters_Knuckles, Characters_Rouge, Characters_MechTails, Characters_MechEggman };
 int defaultcharacters2palt[Characters_Amy] = { Characters_Sonic | altcharacter, Characters_Shadow | altcharacter, Characters_Tails, Characters_Eggman, Characters_Knuckles | altcharacter, Characters_Rouge | altcharacter, Characters_MechTails | altcharacter, Characters_MechEggman | altcharacter };
 
+int altchars[Characters_Amy] = { Characters_Sonic | altcharacter, Characters_Shadow | altcharacter, Characters_Tails, Characters_Eggman, Characters_Knuckles | altcharacter, Characters_Rouge | altcharacter, Characters_MechTails | altcharacter, Characters_MechEggman | altcharacter };
+int altswapchars[Characters_Amy] = { Characters_Shadow | altcharacter, Characters_Sonic | altcharacter, Characters_Tails, Characters_Eggman, Characters_Rouge | altcharacter, Characters_Knuckles | altcharacter, Characters_MechEggman | altcharacter, Characters_MechTails | altcharacter };
+int altbosses[Characters_Amy] = { Characters_Sonic | altcharacter, Characters_Shadow | altcharacter, Characters_Tails, Characters_Eggman, Characters_Knuckles | altcharacter, Characters_Rouge | altcharacter, Characters_MechTails | altcharacter, Characters_MechEggman | altcharacter };
+
 //0 is R101, 1 is R280
 enum KartStages {
 	R101,
@@ -47,8 +51,19 @@ enum Karts {
 	Kart_RougeAlt = Kart_Rouge
 };
 
+enum Presets {
+	PS_Manual,
+	PS_Alt,
+	PS_AltSwap
+};
+
 uint32_t defaultkarts[2] = { Kart_TailsR101, Kart_RougeR280 };
 uint8_t defaultkartchars[2] = { Characters_Tails, Characters_Rouge };
+
+uint32_t altkarts[2] = { Kart_TailsAlt, Kart_RougeAlt };
+uint8_t altkartchars[2] = { Characters_Tails | altcostume, Characters_Rouge | altcostume};
+uint32_t altswapkarts[2] = { Kart_RougeAlt, Kart_TailsAlt };
+uint8_t altswapkartchars[2] = { Characters_Rouge | altcostume, Characters_Tails | altcostume };
 
 bool disableButtons = true;
 
@@ -401,6 +416,21 @@ static uint8_t ParseCharacterKart(const string &str, uint8_t def)
 	return def;
 }
 
+static const unordered_map<string, Presets> presetsmap = {
+	{ "manual", PS_Manual },
+	{ "alt", PS_Alt },
+	{ "altswap", PS_AltSwap }
+};
+
+static Presets ParsePresets(const string &str, Presets def) {
+	string s = trim(str);
+	transform(s.begin(), s.end(), s.begin(), ::tolower);
+	auto ch = presetsmap.find(s);
+	if (ch != presetsmap.end())
+		return ch->second;
+	return def;
+}
+
 const string charnames[Characters_Amy] = { "Sonic", "Shadow", "Tails", "Eggman", "Knuckles", "Rouge", "MechTails", "MechEggman" };
 const string charnamesalt[Characters_Amy] = { "Amy", "MetalSonic", "Tails", "Eggman", "Tikal", "Chaos", "ChaoWalker", "DarkChaoWalker" };
 const string kartstagenames[2] = { "R101", "R280" };
@@ -426,19 +456,48 @@ extern "C"
 		InitRankVoice();
 		
 		const IniFile *settings = new IniFile(std::string(path) + "\\config.ini");
-		for (int i = 0; i < Characters_Amy; i++)
-			defaultcharacters[i] = ParseCharacterID(settings->getString("1Player", charnames[i]), (Characters)i);
-		for (int i = 0; i < Characters_Amy; i++)
-			defaultcharacters2p[i] = ParseCharacterID(settings->getString("2Player", charnames[i]), (Characters)i);
-		for (int i = 0; i < Characters_Amy; i++)
-			defaultcharacters2palt[i] = ParseCharacterID(settings->getString("2Player", charnamesalt[i]), (Characters)(i | altcharacter));
-		for (int i = 0; i < Characters_Amy; i++)
-			bosscharacters[i] = ParseCharacterID(settings->getString("Boss", charnames[i]), (Characters)i);
-		for (int i = 0; i < 2; i++) {
-			defaultkarts[i] = ParseCharacterKart(settings->getString("Kart", kartstagenames[i]), defaultkarts[i]);
-			defaultkartchars[i] = ParseCharacterID(settings->getString("Kart", kartstagenames[i]), (Characters)defaultkartchars[i]);
-		}
+
 		disableButtons = settings->getBool("General", "disableButtons", true);
+		Presets preset = ParsePresets(settings->getString("General", "preset"), PS_Manual);
+
+		switch (preset) {
+			case PS_Manual:
+				for (int i = 0; i < Characters_Amy; i++)
+					defaultcharacters[i] = ParseCharacterID(settings->getString("1Player", charnames[i]), (Characters)i);
+				for (int i = 0; i < Characters_Amy; i++)
+					defaultcharacters2p[i] = ParseCharacterID(settings->getString("2Player", charnames[i]), (Characters)i);
+				for (int i = 0; i < Characters_Amy; i++)
+					defaultcharacters2palt[i] = ParseCharacterID(settings->getString("2Player", charnamesalt[i]), (Characters)(i | altcharacter));
+				for (int i = 0; i < Characters_Amy; i++)
+					bosscharacters[i] = ParseCharacterID(settings->getString("Boss", charnames[i]), (Characters)i);
+				for (int i = 0; i <= R280; i++) {
+					defaultkarts[i] = ParseCharacterKart(settings->getString("Kart", kartstagenames[i]), defaultkarts[i]);
+					defaultkartchars[i] = ParseCharacterID(settings->getString("Kart", kartstagenames[i]), (Characters)defaultkartchars[i]);
+				}
+				break;
+			case PS_Alt:
+				for (int i = 0; i < Characters_Amy; i++) {
+					defaultcharacters[i] = altchars[i];
+					bosscharacters[i] = altbosses[i];
+				}
+				for (int i = 0; i <= R280; i++) {
+					defaultkarts[i] = altkarts[i];
+					defaultkartchars[i] = altkartchars[i];
+				}
+				break;
+			case PS_AltSwap:
+				for (int i = 0; i < Characters_Amy; i++) {
+					defaultcharacters[i] = altswapchars[i];
+					bosscharacters[i] = altbosses[i];
+				}
+				for (int i = 0; i <= R280; i++) {
+					defaultkarts[i] = altswapkarts[i];
+					defaultkartchars[i] = altswapkartchars[i];
+				}
+				break;
+		}
+		
+
 		delete settings;
 	}
 
