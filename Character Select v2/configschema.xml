@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
 	<Groups>
-		<Group name="General">
+		<Group name="General" display="0 - General">
 			<Property name="disableButtons" display="Disable button select" type="bool" defaultvalue="True">
 				<HelpText>Disable buttons selecting characters.</HelpText>
 			</Property>
