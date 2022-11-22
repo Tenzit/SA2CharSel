@@ -314,6 +314,12 @@ exit_6202DD:
 		jmp loc_6202DD
 	}
 }
+
+const void *const loc_61f894 = (void*)0x61f894;
+__declspec(naked) void kart_m3_hack()
+{
+	__asm jmp loc_61f894
+}
 #pragma endregion
 
 #pragma region init splitscreen
@@ -449,6 +455,7 @@ extern "C"
 		WriteJump((void*)0x661CF0, sub_661CF0), // Tails vs Eggman 2
 		WriteJump((void*)0x61AEBD, sub_61AEBD), // Kart missions kart
 		WriteJump((void*)0x6200E5, sub_6200E5), // Kart missions texture
+		WriteJump((void*)0x61f88f, kart_m3_hack),
 		//WriteJump(InitSplitscreen, InitSplitscreen_r)
 
 		InitBase();
