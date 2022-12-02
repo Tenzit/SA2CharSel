@@ -1244,7 +1244,7 @@ void LoadTitleCardTextures()
 	const char* v15; // esi@19
 	char filename[24]; // [sp+Ch] [bp-20h]@27
 
-	if (TwoPlayerMode || CurrentLevel == LevelIDs_Route101280)
+	if (TwoPlayerMode)
 	{
 		switch (CurrentCharacter)
 		{
@@ -1262,6 +1262,45 @@ void LoadTitleCardTextures()
 			v15 = "SO";
 			break;
 		}
+	}
+	else if (CurrentLevel == LevelIDs_Route101280) {
+#define altcostume 0x80u
+		extern uint8_t defaultkartchars[2];
+		int ch = defaultkartchars[(CurrentCharacter != Characters_MechTails)];
+		switch (ch)
+		{
+		case Characters_Shadow:
+		case Characters_SuperShadow:
+		case Characters_Shadow | altcostume:
+			v15 = "SH";
+			break;
+		case Characters_Eggman:
+		case Characters_MechEggman:
+		case Characters_MechEggman | altcostume:
+			v15 = "EG";
+			break;
+		case Characters_Tails:
+		case Characters_MechTails:
+			v15 = "TA";
+			break;
+		case Characters_Knuckles:
+		case Characters_Knuckles | altcostume:
+			v15 = "KN";
+			break;
+		case Characters_Rouge:
+			v15 = "RO";
+			break;
+		case Characters_Rouge | altcostume:
+			v15 = "DC";
+			break;
+		case Characters_Tails | altcostume:
+			v15 = "CH";
+			break;
+		default:
+			v15 = "SO";
+			break;
+		}
+#undef altcostume
 	}
 	else
 	{
