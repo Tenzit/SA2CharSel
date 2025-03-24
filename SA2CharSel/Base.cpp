@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "SA2ModLoader.h"
 #include "Base.h"
+#include "Trampoline.h"
 #include <cstdio>
 #include <vector>
 #include <algorithm>
@@ -1174,64 +1174,35 @@ __declspec(naked) void loc_727E5B()
 #pragma endregion
 #pragma region Goal Ring
 
-static const void* const loc_6C6431 = (void*)0x6C6431;
-static const void* const loc_6C6412 = (void*)0x6C6412;
-__declspec(naked) void loc_6C63E7()
-{
-	__asm
-	{
-		mov eax, MissionNum
-		cmp	long ptr[eax], 1
-		je	_loc_6C6412
-		mov	eax, [ebp + 8]
-		cdq
-		mov	esi, 3
-		idiv	esi
-		cmp	edx, 1
-		je _loc_6C6431
-		mov	eax, CurrentLevel
-		mov eax, [eax]
-		cmp	ax, LevelIDs_PumpkinHill
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_AquaticMine
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_SecurityHall
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_WildCanyon
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_DryLagoon
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_DeathChamber
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_EggQuarters
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_MeteorHerd
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_WildCanyon2P
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_MadSpace
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_DryLagoon2P
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_PoolQuest
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_PlanetQuest
-		je	short loc_6C659A
-		cmp	ax, LevelIDs_DeathChamber2P
-		jne	_loc_6C6431
+static Trampoline* GoalRing_t = nullptr;
 
-		loc_6C659A :
-		pop	esi
-			pop	ebp
-			pop	ebx
-			retn
-			_loc_6C6412 :
-		mov ecx, 2
-			jmp loc_6C6412
-			_loc_6C6431 :
-		mov ecx, 2
-			jmp[loc_6C6431]
+void GoalRing_r(ObjectMaster* obj) {
+	EntityData1 *data = obj->Data1.Entity;
+	switch (CurrentLevel) {
+	case LevelIDs_WildCanyon:
+	case LevelIDs_PumpkinHill:
+	case LevelIDs_AquaticMine:
+	case LevelIDs_DeathChamber:
+	case LevelIDs_MeteorHerd:
+	case LevelIDs_DryLagoon:
+	case LevelIDs_EggQuarters:
+	case LevelIDs_SecurityHall:
+	case LevelIDs_MadSpace:
+		// Actually mission 2 because 0-indexing lol
+		if (MissionNum == 1) {
+			data->Rotation.x = 2;
+			data->Action = 1;
+			if (!MainCharObj1[0] || MainCharObj1[0]->field_6 < 120u) {
+				return;
+			}
+		}
+		else if (data->Rotation.x % 3 != 1) {
+			return;
+		}
 	}
+
+	ObjectFunc(origin, GoalRing_t->Target());
+	origin(obj);
 }
 
 #pragma endregion
@@ -2109,7 +2080,7 @@ void WriteJumps()
 	WriteJump((void*)0x43DF30, sub_43DF30); // End position
 	WriteJump((void*)Load2PIntroPos, Load2PIntroPos_r); // 2P Intro position
 	WriteJump((void*)0x727E5B, loc_727E5B); // 2P Race Bar
-	WriteJump((void*)0x6C63E7, loc_6C63E7); // Goal Ring
+	WriteJump((void*)0x6c63de, (void*)0x6c6431); // Hunting character goal ring fix
 	WriteJump((void*)0x43C9D0, (void*)0x43CADF); // Tails/Eggman fix
 	WriteJump((void*)0x472A7D, loc_472A7D); // Title Card textures
 	WriteJump((void*)0x43EE5F, loc_43EE5F); // End Level voices
@@ -2223,6 +2194,8 @@ void InitBase()
 		pair<int, int>* order[] = { mechtails, mecheggman, sonic, shadow, rouge, knuckles };
 		actionlistthing(order, (void**)0x795339, true);
 	}
+
+	GoalRing_t = new Trampoline((int)GoalRing_Main, (int)GoalRing_Main + 0x6, GoalRing_r);
 
 	WriteCall((void*)0x729D16, Knuckles_LevelBounds_r);
 	WriteCall((void*)0x729DC5, Knuckles_LevelBounds_r);
